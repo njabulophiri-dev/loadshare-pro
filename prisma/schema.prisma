@@ -1,0 +1,52 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  ADMIN
+  BUSINESS
+  USER
+}
+
+enum PowerState {
+  ONLINE
+  BACKUP
+  OFFLINE
+}
+
+model User {
+  id         String     @id @default(cuid())
+  email      String     @unique
+  role       UserRole   @default(USER)
+  businesses Business[]
+  createdAt  DateTime   @default(now())
+}
+
+model Business {
+  id              String        @id @default(cuid())
+  name            String
+  city            String
+  suburb          String
+  hasBackupPower  Boolean       @default(false)
+  ownerId         String
+  owner           User          @relation(fields: [ownerId], references: [id])
+  powerStatuses   PowerStatus[]
+  createdAt       DateTime      @default(now())
+
+  @@index([ownerId])
+}
+
+model PowerStatus {
+  id         String      @id @default(cuid())
+  businessId String
+  business   Business   @relation(fields: [businessId], references: [id])
+  status     PowerState
+  updatedAt  DateTime    @default(now())
+
+  @@index([businessId])
+}
