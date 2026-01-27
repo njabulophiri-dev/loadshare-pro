@@ -2,14 +2,18 @@
   "name": "loadshare-pro",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "seed": "ts-node prisma/seed.ts"                   
   },
   "dependencies": {
+    "@prisma/client": "^6.19.2",
     "next": "16.1.2",
+    "prisma": "^6.19.2",
     "react": "19.2.3",
     "react-dom": "19.2.3"
   },
@@ -23,4 +27,5 @@
     "tailwindcss": "^4",
     "typescript": "^5"
   }
+
 }
