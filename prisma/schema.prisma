@@ -7,7 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum UserRole {
+enum Role {
   ADMIN
   BUSINESS
   USER
@@ -22,7 +22,7 @@ enum PowerState {
 model User {
   id         String     @id @default(cuid())
   email      String     @unique
-  role       UserRole   @default(USER)
+  role       Role   @default(USER)
   businesses Business[]
   createdAt  DateTime   @default(now())
 }
@@ -48,5 +48,5 @@ model PowerStatus {
   status     PowerState
   updatedAt  DateTime    @default(now())
 
-  @@index([businessId])
+  @@index([businessId, updatedAt])
 }
